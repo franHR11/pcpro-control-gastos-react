@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCPro Control de Gastos - Gestión Inteligente de Finanzas Personales</title>
+    <meta name="description" content="Aplicación web moderna para el control de gastos desarrollada con React 19, TypeScript y TailwindCSS. Gestiona tu presupuesto de forma inteligente y eficiente.">
+    
+    <!-- TailwindCSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Alpine.js CDN -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navegación Fija -->
+    <header class="fixed top-0 w-full bg-white/95 backdrop-blur-sm shadow-sm z-50">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <img src="https://pcprogramacion.es/wp-content/uploads/2021/02/cropped-logo-bueno-1.webp" alt="PC Programación Logo" class="h-8 w-auto">
+                    <span class="font-bold text-xl text-gray-900">PC Programación</span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#inicio" class="text-gray-700 hover:text-blue-600 transition-colors">Inicio</a>
+                    <a href="#funcionalidades" class="text-gray-700 hover:text-blue-600 transition-colors">Funcionalidades</a>
+                    <a href="#tecnologias" class="text-gray-700 hover:text-blue-600 transition-colors">Tecnologías</a>
+                    <a href="#contacto" class="text-gray-700 hover:text-blue-600 transition-colors">Contacto</a>
+                </div>
+                
+                <a href="https://pcprogramacion.es/" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                    Ver Más Proyectos
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Sección Hero -->
+    <section id="inicio" class="pt-16 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="animate-fade-in-up">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                        PCPro Control de Gastos
+                    </h1>
+                    <p class="text-xl md:text-2xl mb-6 text-blue-100">
+                        La forma inteligente de gestionar tus finanzas personales
+                    </p>
+                    <p class="text-lg mb-8 text-blue-50 leading-relaxed">
+                        Una aplicación web moderna y completa para el control de gastos, desarrollada con las últimas tecnologías. 
+                        Gestiona tu presupuesto, categoriza tus gastos y mantén el control total de tus finanzas de manera intuitiva y eficiente.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center justify-center">
+                            <i class="fas fa-external-link-alt mr-2"></i>
+                            Ver Aplicación
+                        </a>
+                        <a href="https://franhr.pcprogramacion.es/" class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors inline-flex items-center justify-center">
+                            <i class="fas fa-folder-open mr-2"></i>
+                            Más Proyectos
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="animate-fade-in-up">
+                    <img src="6.gif" alt="PCPro Control de Gastos - Captura principal" 
+                         class="w-full rounded-lg shadow-2xl border border-blue-500/20">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Carrusel de Screenshots -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 animate-fade-in-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Explora Todas las Funcionalidades
+                </h2>
+                <p class="text-xl text-gray-600">
+                    Descubre cómo cada componente te ayuda a mantener el control total de tus finanzas
+                </p>
+            </div>
+            
+            <div class="relative" x-data="{ currentSlide: 0, slides: 6 }" x-init="setInterval(() => { currentSlide = (currentSlide + 1) % slides }, 4000)">
+                <div class="overflow-hidden rounded-lg">
+                    <div class="flex transition-transform duration-500 ease-in-out" :style="`transform: translateX(-${currentSlide * 100}%)`">
+                        <!-- Slide 1 -->
+                        <div class="w-full flex-shrink-0">
+                            <div class="max-w-3xl mx-auto">
+                                <img src="1.png" alt="Definición de Presupuesto" class="w-full max-w-2xl mx-auto rounded-lg shadow-lg mb-6">
+                                <div class="text-center">
+                                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Definición de Presupuesto</h3>
+                                    <p class="text-gray-600">Establece tu presupuesto inicial de forma sencilla y comienza a gestionar tus finanzas desde el primer momento.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Slide 2 -->
+                        <div class="w-full flex-shrink-0">
+                            <div class="max-w-3xl mx-auto">
+                                <img src="2.png" alt="Seguimiento Visual" class="w-full max-w-2xl mx-auto rounded-lg shadow-lg mb-6">
+                                <div class="text-center">
+                                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Seguimiento Visual</h3>
+                                    <p class="text-gray-600">Visualiza tu progreso con gráficos circulares interactivos que muestran tu presupuesto disponible en tiempo real.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Slide 3 -->
+                        <div class="w-full flex-shrink-0">
+                            <div class="max-w-3xl mx-auto">
+                                <img src="3.png" alt="Registro de Gastos" class="w-full max-w-2xl mx-auto rounded-lg shadow-lg mb-6">
+                                <div class="text-center">
+                                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Registro de Gastos</h3>
+                                    <p class="text-gray-600">Añade gastos de forma intuitiva con categorización automática y selección de fechas mediante un calendario interactivo.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Slide 4 -->
+                        <div class="w-full flex-shrink-0">
+                            <div class="max-w-3xl mx-auto">
+                                <img src="4.png" alt="Filtrado por Categorías" class="w-full max-w-2xl mx-auto rounded-lg shadow-lg mb-6">
+                                <div class="text-center">
+                                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Filtrado por Categorías</h3>
+                                    <p class="text-gray-600">Organiza y filtra tus gastos por categorías predefinidas para un análisis detallado de tus hábitos de consumo.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Slide 5 -->
+                        <div class="w-full flex-shrink-0">
+                            <div class="max-w-3xl mx-auto">
+                                <img src="5.gif" alt="Lista de Gastos" class="w-full max-w-2xl mx-auto rounded-lg shadow-lg mb-6">
+                                <div class="text-center">
+                                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Lista de Gastos</h3>
+                                    <p class="text-gray-600">Visualiza todos tus gastos en una lista organizada con opciones de edición y eliminación mediante gestos táctiles.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Slide 6 -->
+                        <div class="w-full flex-shrink-0">
+                            <div class="max-w-3xl mx-auto">
+                                <img src="6.gif" alt="Edición de Gastos" class="w-full max-w-2xl mx-auto rounded-lg shadow-lg mb-6">
+                                <div class="text-center">
+                                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Edición de Gastos</h3>
+                                    <p class="text-gray-600">Modifica cualquier gasto existente con validación en tiempo real para mantener la integridad de tu presupuesto.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Controles del carrusel -->
+                <button @click="currentSlide = currentSlide > 0 ? currentSlide - 1 : slides - 1" 
+                        class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-2 rounded-full shadow-lg">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button @click="currentSlide = (currentSlide + 1) % slides" 
+                        class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-2 rounded-full shadow-lg">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                
+                <!-- Indicadores -->
+                <div class="flex justify-center mt-8 space-x-2">
+                    <template x-for="i in slides" :key="i">
+                        <button @click="currentSlide = i - 1" 
+                                :class="currentSlide === i - 1 ? 'bg-blue-600' : 'bg-gray-300'" 
+                                class="w-3 h-3 rounded-full transition-colors"></button>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Funcionalidades Principales -->
+    <section id="funcionalidades" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 animate-fade-in-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Funcionalidades Principales
+                </h2>
+                <p class="text-xl text-gray-600">
+                    Todo lo que necesitas para el control completo de tus finanzas personales
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-lg card-hover animate-fade-in-up">
+                    <div class="text-blue-600 text-3xl mb-4">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Gestión de Presupuesto</h3>
+                    <p class="text-gray-600">Define y controla tu presupuesto mensual con validaciones inteligentes y alertas automáticas.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-lg card-hover animate-fade-in-up">
+                    <div class="text-blue-600 text-3xl mb-4">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Visualización Interactiva</h3>
+                    <p class="text-gray-600">Gráficos circulares en tiempo real que muestran tu progreso y presupuesto disponible.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-lg card-hover animate-fade-in-up">
+                    <div class="text-blue-600 text-3xl mb-4">
+                        <i class="fas fa-tags"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Categorización Inteligente</h3>
+                    <p class="text-gray-600">Organiza tus gastos por categorías predefinidas con iconos intuitivos y filtros avanzados.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-lg card-hover animate-fade-in-up">
+                    <div class="text-blue-600 text-3xl mb-4">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Selector de Fechas</h3>
+                    <p class="text-gray-600">Calendario interactivo para registrar gastos con fechas precisas y navegación intuitiva.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-lg card-hover animate-fade-in-up">
+                    <div class="text-blue-600 text-3xl mb-4">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Gestos Táctiles</h3>
+                    <p class="text-gray-600">Interfaz optimizada para móviles con gestos de deslizamiento para editar y eliminar gastos.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-lg card-hover animate-fade-in-up">
+                    <div class="text-blue-600 text-3xl mb-4">
+                        <i class="fas fa-save"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Persistencia Local</h3>
+                    <p class="text-gray-600">Tus datos se guardan automáticamente en el navegador, sin necesidad de registro o conexión.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Beneficios (Desafío -> Solución) -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 animate-fade-in-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Soluciones Técnicas Implementadas
+                </h2>
+                <p class="text-xl text-gray-600">
+                    Decisiones de desarrollo y arquitectura del proyecto
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- Desafío 1 -->
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-times text-red-600"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Desafío: Gestión de Estado Complejo</h3>
+                        <p class="text-gray-600">Manejar múltiples estados interdependientes (presupuesto, gastos, filtros, edición) de forma eficiente.</p>
+                    </div>
+                </div>
+                
+                <!-- Solución 1 -->
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-check text-green-600"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Solución: useReducer + Context API</h3>
+                        <p class="text-gray-600">Implementación de useReducer con Context API para un estado global predecible y acciones tipadas con TypeScript.</p>
+                    </div>
+                </div>
+                
+                <!-- Desafío 2 -->
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-times text-red-600"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Desafío: Experiencia Móvil Intuitiva</h3>
+                        <p class="text-gray-600">Crear una interfaz táctil fluida para gestionar gastos en dispositivos móviles.</p>
+                    </div>
+                </div>
+                
+                <!-- Solución 2 -->
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-check text-green-600"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Solución: React Swipeable List</h3>
+                        <p class="text-gray-600">Integración de gestos de deslizamiento nativos para editar/eliminar con feedback visual inmediato.</p>
+                    </div>
+                </div>
+                
+                <!-- Desafío 3 -->
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-times text-red-600"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Desafío: Validación de Presupuesto</h3>
+                        <p class="text-gray-600">Prevenir gastos que excedan el presupuesto disponible con validación en tiempo real.</p>
+                    </div>
+                </div>
+                
+                <!-- Solución 3 -->
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-check text-green-600"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Solución: Validación con useMemo</h3>
+                        <p class="text-gray-600">Cálculos optimizados con useMemo para validación instantánea y prevención de re-renders innecesarios.</p>
+                    </div>
+                </div>
+                
+                <!-- Desafío 4 -->
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-times text-red-600"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Desafío: Persistencia de Datos</h3>
+                        <p class="text-gray-600">Mantener los datos del usuario sin backend, garantizando persistencia entre sesiones.</p>
+                    </div>
+                </div>
+                
+                <!-- Solución 4 -->
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-check text-green-600"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Solución: LocalStorage + useEffect</h3>
+                        <p class="text-gray-600">Sincronización automática con localStorage usando useEffect para persistencia transparente.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stack Tecnológico -->
+    <section id="tecnologias" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 animate-fade-in-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Stack Tecnológico
+                </h2>
+                <p class="text-xl text-gray-600">
+                    Tecnologías modernas utilizadas en el desarrollo
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-lg card-hover animate-fade-in-up text-center">
+                    <div class="text-blue-600 text-4xl mb-4">
+                        <i class="fab fa-react"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">React 19</h3>
+                    <p class="text-gray-600 text-sm">Framework principal con las últimas características y optimizaciones de rendimiento.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-lg card-hover animate-fade-in-up text-center">
+                    <div class="text-blue-600 text-4xl mb-4">
+                        <i class="fab fa-js-square"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">TypeScript</h3>
+                    <p class="text-gray-600 text-sm">Tipado estático para mayor robustez y mejor experiencia de desarrollo.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-lg card-hover animate-fade-in-up text-center">
+                    <div class="text-blue-600 text-4xl mb-4">
+                        <i class="fas fa-wind"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">TailwindCSS</h3>
+                    <p class="text-gray-600 text-sm">Framework CSS utility-first para diseño responsive y consistente.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-lg card-hover animate-fade-in-up text-center">
+                    <div class="text-blue-600 text-4xl mb-4">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Vite</h3>
+                    <p class="text-gray-600 text-sm">Build tool ultrarrápido con HMR para desarrollo ágil y builds optimizados.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-lg card-hover animate-fade-in-up text-center">
+                    <div class="text-blue-600 text-4xl mb-4">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">LocalStorage</h3>
+                    <p class="text-gray-600 text-sm">Persistencia de datos del lado del cliente sin necesidad de backend.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-lg card-hover animate-fade-in-up text-center">
+                    <div class="text-blue-600 text-4xl mb-4">
+                        <i class="fas fa-calendar"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">React Date Picker</h3>
+                    <p class="text-gray-600 text-sm">Componente de calendario interactivo para selección de fechas.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-lg card-hover animate-fade-in-up text-center">
+                    <div class="text-blue-600 text-4xl mb-4">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Progress Bar</h3>
+                    <p class="text-gray-600 text-sm">Visualización circular del progreso del presupuesto en tiempo real.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-lg card-hover animate-fade-in-up text-center">
+                    <div class="text-blue-600 text-4xl mb-4">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Swipeable List</h3>
+                    <p class="text-gray-600 text-sm">Gestos táctiles nativos para una experiencia móvil fluida.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Información del Desarrollador -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 animate-fade-in-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Sobre el Desarrollador
+                </h2>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12">
+                <div class="animate-fade-in-up">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6">PC Programación</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-globe text-blue-600"></i>
+                            <span class="text-gray-700">www.pcprogramacion.es</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-envelope text-blue-600"></i>
+                            <span class="text-gray-700">desarrollo@pcprogramacion.es</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-phone text-blue-600"></i>
+                            <span class="text-gray-700">628639355</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-map-marker-alt text-blue-600"></i>
+                            <span class="text-gray-700">Valencia, España</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="animate-fade-in-up">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6">Habilidades Demostradas</h3>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-900 mb-2">Frontend</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• React 19 + Hooks</li>
+                                <li>• TypeScript</li>
+                                <li>• TailwindCSS</li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-900 mb-2">Gestión de Estado</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• useReducer</li>
+                                <li>• Context API</li>
+                                <li>• Custom Hooks</li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-900 mb-2">Herramientas</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• Vite</li>
+                                <li>• ESLint</li>
+                                <li>• Git</li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-900 mb-2">UX/UI</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• Responsive Design</li>
+                                <li>• Mobile First</li>
+                                <li>• Accesibilidad</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 animate-fade-in-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Preguntas Frecuentes
+                </h2>
+            </div>
+            
+            <div class="space-y-4" x-data="{ openFaq: null }">
+                <div class="bg-white rounded-lg shadow-sm">
+                    <button @click="openFaq = openFaq === 1 ? null : 1" 
+                            class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50">
+                        <span class="font-semibold text-gray-900">¿Qué tecnologías se utilizaron en este proyecto?</span>
+                        <i class="fas fa-chevron-down transition-transform" :class="openFaq === 1 ? 'rotate-180' : ''"></i>
+                    </button>
+                    <div x-show="openFaq === 1" x-collapse class="px-6 pb-4">
+                        <p class="text-gray-600">El proyecto está desarrollado con React 19, TypeScript, TailwindCSS y Vite. Se utilizan hooks avanzados como useReducer y Context API para la gestión de estado, junto con librerías especializadas para componentes como el date picker y las listas deslizables.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-sm">
+                    <button @click="openFaq = openFaq === 2 ? null : 2" 
+                            class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50">
+                        <span class="font-semibold text-gray-900">¿Los datos se guardan de forma segura?</span>
+                        <i class="fas fa-chevron-down transition-transform" :class="openFaq === 2 ? 'rotate-180' : ''"></i>
+                    </button>
+                    <div x-show="openFaq === 2" x-collapse class="px-6 pb-4">
+                        <p class="text-gray-600">Sí, todos los datos se almacenan localmente en tu navegador usando localStorage. No se envía información a servidores externos, garantizando la privacidad total de tus datos financieros.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-sm">
+                    <button @click="openFaq = openFaq === 3 ? null : 3" 
+                            class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50">
+                        <span class="font-semibold text-gray-900">¿Es responsive para dispositivos móviles?</span>
+                        <i class="fas fa-chevron-down transition-transform" :class="openFaq === 3 ? 'rotate-180' : ''"></i>
+                    </button>
+                    <div x-show="openFaq === 3" x-collapse class="px-6 pb-4">
+                        <p class="text-gray-600">Completamente. La aplicación está diseñada con un enfoque mobile-first e incluye gestos táctiles nativos para una experiencia óptima en smartphones y tablets.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-sm">
+                    <button @click="openFaq = openFaq === 4 ? null : 4" 
+                            class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50">
+                        <span class="font-semibold text-gray-900">¿Qué hace especial la gestión de estado?</span>
+                        <i class="fas fa-chevron-down transition-transform" :class="openFaq === 4 ? 'rotate-180' : ''"></i>
+                    </button>
+                    <div x-show="openFaq === 4" x-collapse class="px-6 pb-4">
+                        <p class="text-gray-600">Se implementa useReducer con Context API para un estado global predecible, junto con TypeScript para acciones tipadas. Esto garantiza escalabilidad y mantenibilidad del código.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-sm">
+                    <button @click="openFaq = openFaq === 5 ? null : 5" 
+                            class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50">
+                        <span class="font-semibold text-gray-900">¿Incluye validaciones de presupuesto?</span>
+                        <i class="fas fa-chevron-down transition-transform" :class="openFaq === 5 ? 'rotate-180' : ''"></i>
+                    </button>
+                    <div x-show="openFaq === 5" x-collapse class="px-6 pb-4">
+                        <p class="text-gray-600">Sí, incluye validaciones en tiempo real que previenen gastos que excedan el presupuesto disponible, con cálculos optimizados usando useMemo para evitar re-renders innecesarios.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-sm">
+                    <button @click="openFaq = openFaq === 6 ? null : 6" 
+                            class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50">
+                        <span class="font-semibold text-gray-900">¿Puedo ver el código fuente?</span>
+                        <i class="fas fa-chevron-down transition-transform" :class="openFaq === 6 ? 'rotate-180' : ''"></i>
+                    </button>
+                    <div x-show="openFaq === 6" x-collapse class="px-6 pb-4">
+                        <p class="text-gray-600">Por supuesto. El código está disponible y documentado, mostrando las mejores prácticas de desarrollo con React, TypeScript y arquitectura de componentes moderna.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section class="py-20 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="animate-fade-in-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">
+                    ¿Listo para Colaborar en tu Próximo Proyecto?
+                </h2>
+                <p class="text-xl mb-8 text-blue-100">
+                    Especializado en desarrollo frontend moderno con React, TypeScript y las mejores prácticas de la industria. 
+                    Disponible para proyectos freelance y colaboraciones.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+                    <a href="mailto:desarrollo@pcprogramacion.es" 
+                       class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center justify-center">
+                        <i class="fas fa-envelope mr-2"></i>
+                        Contactar por Email
+                    </a>
+                    <a href="https://franhr.pcprogramacion.es/" 
+                       target="_blank"
+                       class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors inline-flex items-center justify-center">
+                        <i class="fas fa-briefcase mr-2"></i>
+                        Ver Portfolio Completo
+                    </a>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="flex flex-col items-center">
+                        <i class="fas fa-code text-3xl mb-3 text-blue-200"></i>
+                        <h3 class="font-semibold mb-2">Código Limpio</h3>
+                        <p class="text-blue-100 text-sm">Desarrollo con las mejores prácticas y estándares de la industria</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <i class="fas fa-rocket text-3xl mb-3 text-blue-200"></i>
+                        <h3 class="font-semibold mb-2">Entrega Rápida</h3>
+                        <p class="text-blue-100 text-sm">Metodologías ágiles para resultados en tiempo récord</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <i class="fas fa-comments text-3xl mb-3 text-blue-200"></i>
+                        <h3 class="font-semibold mb-2">Comunicación Fluida</h3>
+                        <p class="text-blue-100 text-sm">Seguimiento constante y feedback continuo durante el desarrollo</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contacto" class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- Información Principal -->
+                <div class="md:col-span-1">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <img src="https://pcprogramacion.es/wp-content/uploads/2021/02/cropped-logo-bueno-1.webp" 
+                             alt="PC Programación Logo" class="w-8 h-8">
+                        <span class="font-bold text-xl">PC Programación</span>
+                    </div>
+                    <p class="text-gray-400 mb-4 text-sm">
+                        Desarrollo web moderno y soluciones tecnológicas innovadoras para empresas y emprendedores.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://www.linkedin.com/in/franciscojoseherreros/" target="_blank" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://www.instagram.com/franhrgames/" target="_blank" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.facebook.com/franhrgames" target="_blank" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="https://github.com/franHR11" target="_blank" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Enlaces Rápidos -->
+                <div>
+                    <h3 class="font-semibold mb-4">Enlaces Rápidos</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#inicio" class="text-gray-400 hover:text-white">Inicio</a></li>
+                        <li><a href="#funcionalidades" class="text-gray-400 hover:text-white">Funcionalidades</a></li>
+                        <li><a href="#tecnologias" class="text-gray-400 hover:text-white">Tecnologías</a></li>
+                        <li><a href="#contacto" class="text-gray-400 hover:text-white">Contacto</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Servicios -->
+                <div>
+                    <h3 class="font-semibold mb-4">Servicios</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li class="text-gray-400">Desarrollo Frontend</li>
+                        <li class="text-gray-400">Aplicaciones React</li>
+                        <li class="text-gray-400">TypeScript</li>
+                        <li class="text-gray-400">Responsive Design</li>
+                    </ul>
+                </div>
+                
+                <!-- Contacto -->
+                <div>
+                    <h3 class="font-semibold mb-4">Contacto</h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-globe text-blue-400"></i>
+                            <span class="text-gray-400">www.pcprogramacion.es</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-envelope text-blue-400"></i>
+                            <span class="text-gray-400">desarrollo@pcprogramacion.es</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-phone text-blue-400"></i>
+                            <span class="text-gray-400">628639355</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-map-marker-alt text-blue-400"></i>
+                            <span class="text-gray-400">Valencia, España</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-tools text-blue-400"></i>
+                            <span class="text-gray-400">Soporte: www.pcprogramacion.es</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm">
+                    © 2025 PC Programación. Todos los derechos reservados.
+                </p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="text-gray-400 hover:text-white text-sm">Política de Privacidad</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-sm">Términos de Uso</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
